@@ -23,6 +23,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    STACK_VERSION: &{{ inputs.stack-version }}
+    STACK_VERSION: ${{ inputs.stack-version }}
     NODES: ${{ inputs.nodes }}
     PLUGINS: ${{ inputs.plugins }}
