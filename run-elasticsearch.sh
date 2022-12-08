@@ -17,7 +17,7 @@ if [ -n "${PLUGINS_STR}" ]; then
   done
 fi
 
-docker network create elasticsearch
+docker network create elastic
 
 NODES=${NODES-1}
 for (( node=1; node<=$NODES; node++ ))
