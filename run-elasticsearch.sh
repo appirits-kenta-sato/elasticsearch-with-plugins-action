@@ -34,8 +34,8 @@ do
     --env "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
     --env "xpack.security.enabled=false" \
     --env "xpack.licence.self_generated.type=basic" \
-    --unlimit nofile=65536:65536 \
-    --unlimit memlock=-1:-1 \
+    --ulimit nofile=65536:65536 \
+    --ulimit memlock=-1:-1 \
     --publish "${port}:9200" \
     --detach \
     --network=elastic \
