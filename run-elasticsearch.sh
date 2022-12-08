@@ -8,7 +8,7 @@ if [[ -z $STACK_VERSION ]]; then
 fi
 
 PLUGIN_INSTALL_CMD=""
-PLUGINS_STR=`echo ${PLUGINS} | sed -e 's/¥n/ /g'`
+PLUGINS_STR=`echo ${PLUGINS} | sed -e 's/\n/ /g'`
 if [ -n "${PLUGINS_STR}" ]; then
   ARRAY=(${PLUGINS_STR})
   for i in "${ARRAY[@]}"
@@ -23,38 +23,38 @@ NODES=${NODES-1}
 for (( node=1; node<=$NODES; node++ ))
 do
   port=$((9200 + $node - 1))
-  docker run ¥
-    --rm ¥
-    --env "node.name=es${node}" ¥
-    --env "cluster.name=docker-elasticserch" ¥
-    --env "cluster.initial_master_nodes=es1" ¥
-    --env "discovery.seed_hosts=es1" ¥
-    --env "cluster.routing.allocation.disk.threshold_enable=false" ¥
-    --env "bootstrap.memory_lock=true" ¥
-    --env "ES_JAVA_OPTS=-Xms1g -Xmx1g" ¥
-    --env "xpack.security.enabled=false" ¥
-    --env "xpack.licence.self_generated.type=basic" ¥
-    --unlimit nofile=65536:65536 ¥
-    --unlimit memlock=-1:-1 ¥
-    --publish "${port}:9200" ¥
-    --detach ¥
-    --network=elastic ¥
-    --name="es${node}" ¥
-    --entrypoint="" ¥
-    docker.elastic.co/elasticserch/elasticsearch:${STACK_VERSION} ¥
+  docker run \
+    --rm \
+    --env "node.name=es${node}" \
+    --env "cluster.name=docker-elasticserch" \
+    --env "cluster.initial_master_nodes=es1" \
+    --env "discovery.seed_hosts=es1" \
+    --env "cluster.routing.allocation.disk.threshold_enable=false" \
+    --env "bootstrap.memory_lock=true" \
+    --env "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
+    --env "xpack.security.enabled=false" \
+    --env "xpack.licence.self_generated.type=basic" \
+    --unlimit nofile=65536:65536 \
+    --unlimit memlock=-1:-1 \
+    --publish "${port}:9200" \
+    --detach \
+    --network=elastic \
+    --name="es${node}" \
+    --entrypoint="" \
+    docker.elastic.co/elasticserch/elasticsearch:${STACK_VERSION} \
     /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
 done
 
-docker run ¥
-  --network elastic ¥
-  --rm ¥
-  appropriate/curl ¥
-  --max-time 120 ¥
-  --retry 120 ¥
-  --retry-delay 1 ¥
-  --retry-connrefused ¥
-  --show-error ¥
-  --silent ¥
+docker run \
+  --network elastic \
+  --rm \
+  appropriate/curl \
+  --max-time 120 \
+  --retry 120 \
+  --retry-delay 1 \
+  --retry-connrefused \
+  --show-error \
+  --silent \
   http://es1:9200
 
 sleep 10
